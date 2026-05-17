@@ -93,6 +93,11 @@ git log -5 --oneline
 
 hook 失败时，修复问题后创建新 commit；除非用户明确要求，否则不使用 amend。
 
+PowerShell 编码要求（避免中文提交信息乱码）：
+- 使用 `git commit -m "..."`，不要用管道或重定向把中文传给 `git commit -F -`。
+- 如需多行提交信息，先构造 here-string 变量，再用 `git commit -m $msg`。
+- 避免 `<<<`、`| git commit -F -` 这类写法，以免引入 BOM 或被控制台代码页转码。
+
 ### 6) 推送策略
 
 - 默认自动推送。
