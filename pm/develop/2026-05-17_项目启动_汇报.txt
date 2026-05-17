@@ -1,0 +1,25 @@
+阶段：项目启动
+日期：2026-05-17
+
+一、项目理解
+- 项目目标是基于 LangChain + Python + 智谱模型从 0 到 1 构建智能个人助理。
+- 排期已拆分为第0~7阶段，当前优先级为第0阶段（环境与基础调用验证）。
+
+二、环境准备情况
+- 已克隆代码仓库到：e:\code\agent-zhizhu\smart-assistant
+- 已创建虚拟环境：.venv
+- 已安装依赖：langchain、langchain-community、langchain-core、langchain-openai、zhipuai、python-dotenv
+- 已创建环境变量模板：.env.example（不含真实密钥）
+
+三、已完成代码
+- src/basic_call.py：LangChain + ChatZhipuAI 的最小问答调用脚本
+- src/lcel_demo.py：LCEL（prompt | model | parser）链式调用脚本
+- requirements.txt：依赖清单
+
+四、当前阻塞
+- 本地未配置 ZHIPUAI_API_KEY，脚本运行时会按预期报错并提示配置 .env。
+
+五、下一步计划
+- 配置真实 API Key 后，执行 basic_call 与 lcel_demo 并保存日志；
+- 完成第0阶段验收项 0.5（输出验证日志）；
+- 进入第1阶段（单工具计算器 Agent）。

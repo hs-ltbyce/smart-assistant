@@ -1,0 +1,16 @@
+阶段：第0-1阶段进展
+日期：2026-05-17
+
+一、第0阶段状态
+- 已完成依赖安装与虚拟环境准备。
+- 已完成基础问答验证：`src/basic_call.py` 可返回模型回复。
+- 已完成 LCEL 验证：`src/lcel_demo.py` 可返回链式输出。
+
+二、第1阶段状态
+- 已实现计算器工具：`src/tools/calculator_tool.py`（`@tool` + AST 安全求值）。
+- 已实现单工具 Agent：`src/phase1_single_tool_agent.py`（`create_tool_calling_agent + AgentExecutor`）。
+- 已实现调用日志留痕：`logs/phase1_tool_calls.log`。
+- 验收用例 `123 * 456 等于多少` 输出 `56088`，通过。
+
+三、下一步
+- 进入第2阶段：实现天气工具与时间工具，并与计算器统一挂载到 Agent。
