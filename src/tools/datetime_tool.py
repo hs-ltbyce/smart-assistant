@@ -30,8 +30,13 @@ def _next_week_date(target_weekday: int) -> datetime:
 
 @tool
 def get_datetime_info(query: str) -> str:
-    """根据提问返回当前时间、今天日期或下周X日期。"""
+    """回答当前时间、今天日期、下周几日期等；不涉及天气、气温、湿度、风、降雨。"""
     text = (query or "").strip()
+    if any(k in text for k in ("天气", "气温", "下雨", "下雪", "刮风", "湿度", "冷不冷", "热不热")):
+        return (
+            "本工具不处理气象问题；若用户问及天气实况，必须由 get_weather 处理，"
+            "且用户未指定地点时请将 get_weather 的 city 置空。"
+        )
     now = datetime.now()
 
     if "现在" in text and ("几点" in text or "时间" in text):
@@ -48,6 +53,6 @@ def get_datetime_info(query: str) -> str:
         return "时间工具暂不支持该下周日期表达，请使用如“下周五日期”。"
 
     return (
-        f"当前日期时间：{now.strftime('%Y-%m-%d %H:%M:%S')}。"
-        "可提问示例：现在几点、今天日期、下周五日期。"
+        "未识别为时间类问题。本工具仅支持：现在几点、今天日期、下周几是几号。"
+        "若用户在问天气，请改调 get_weather（未说城市则 city 置空）。"
     )

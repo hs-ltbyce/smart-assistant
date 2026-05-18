@@ -1,0 +1,29 @@
+阶段：第4阶段进展（长期记忆与用户偏好）
+日期：2026-05-18
+
+一、新增/变更文件路径
+- `src/storage/user_prefs.py`：JSON 偏好存储，允许键 default_city / news_categories，原子写入（*.tmp + os.replace）
+- `src/storage/__init__.py`：包标记
+- `src/tools/user_pref_tool.py`：LangChain 工具 `save_user_pref`、`get_user_pref`
+- `src/tools/weather_tool.py`：`fetch_weather` 及对 `fetch_weather` 的导出；city 为空且提供 user_id 时回退 default_city；原 `get_weather` 供第2阶段使用
+- `src/phase4_memory_prefs_agent.py`：ConversationBufferMemory + 多工具 Agent；按 session/user 隔离短期记忆；按 user 绑定天气工具；涉气象输入的路由前缀
+- `src/tools/datetime_tool.py`：拒绝把气象问题当时间工具；未知时间问法不再返回「当前时间」占位，避免误导模型
+- `.gitignore`：忽略 `data/user_prefs.json` 及临时文件
+
+二、默认数据路径
+- 偏好文件：`data/user_prefs.json`（相对项目根目录）。可用环境变量 `SMART_ASSISTANT_PREFS_PATH` 覆盖。
+
+三、运行方式（在 `src` 目录）
+- 单轮：`python phase4_memory_prefs_agent.py --user default_user --session s1 --query "..."` 
+- 交互：`python phase4_memory_prefs_agent.py --interactive --user default_user --session s1`
+
+四、日志
+- 工具链追加写入：`logs/phase4_tool_calls.log`
+
+五、验收 4.4 / 4.5 结论（本机实测）
+- 4.4：先 `--query` 保存默认城市（如深圳），新进程下 `--query "明天天气怎么样"` 可调用 `get_weather` 并落到深圳（依赖 `data/user_prefs.json` 中 default_city）。涉「明天」等词时模型曾误选时间工具，已通过 `datetime_tool` 收紧与 `prepend_weather_routing_instruction` 路由提示缓解。
+- 4.5：偏好落在 JSON 文件；进程退出后再次运行脚本仍可读到上次 default_city（与仅内存的对话历史区分）。
+
+六、说明
+- 智谱 + 多工具下工具选择存在波动；天气场景在 `phase4` 中对用户输入做了轻量路由前缀，短期记忆中看到的是带前缀文本。
+- 请 PM 视结果更新 `pm/agent_project_plan.md` 进度表中第4阶段勾选状态。
