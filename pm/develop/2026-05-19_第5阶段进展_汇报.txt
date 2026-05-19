@@ -1,0 +1,19 @@
+阶段：第5阶段进展（待办 SQLite 与全工具集成）
+日期：2026-05-19
+
+一、新增/变更
+- `src/storage/todo_store.py`：SQLite `todos` 表（id, user_id, content, status, created_at），路径默认 `data/todos.db`，可用 `SMART_ASSISTANT_TODOS_DB` 覆盖
+- `src/tools/todo_tool.py`：`add_todo`、`list_todos`、`complete_todo`、`delete_todo`
+- `src/phase5_todo_agent.py`：继承第4阶段工具集并挂载待办；复用 `weather_tool_bound` 与气象路由前缀；日志 `logs/phase5_tool_calls.log`
+- `.gitignore`：忽略运行时 `data/todos.db`
+- `README.md`：补充阶段脚本入口与 storage 说明
+
+二、运行（工作目录 `src`）
+- 单轮：`python phase5_todo_agent.py --user default_user --session s1 --query "..."`  
+- 交互：`python phase5_todo_agent.py --interactive`
+
+三、建议手工验收（5.4）
+- 多步中文指令示例：「若明天北京有雨，把买伞加入待办并提醒我带伞，最后列出我的待办」——依赖模型连查天气、解析降雨关键词、add_todo、list_todos；若模型未按预期，可调 prompt 或分多轮验证各工具。
+
+四、说明
+- 请 PM 更新 `pm/agent_project_plan.md` 进度与勾选。

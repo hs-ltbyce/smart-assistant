@@ -18,13 +18,16 @@ python src/lcel_demo.py
 python src/phase1_single_tool_agent.py
 python src/phase2_multi_tool_agent.py
 python src/phase3_memory_chat.py
+cd src
+python phase4_memory_prefs_agent.py --query "你好"
+python phase5_todo_agent.py --query "列出我的待办"
 ```
 
 ## 目录说明
 ```text
 smart-assistant
 ├── src/                 # 源代码
-├── src/tools/           # 工具实现（计算器、时间、天气）
+├── src/storage/       # 偏好 JSON / 待办 SQLite
 ├── test-doc/            # 测试文档（功能与测试点）
 ├── logs/                # 执行日志
 ├── pm/                  # 项目需求与排期（只读）
